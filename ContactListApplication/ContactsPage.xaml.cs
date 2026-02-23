@@ -48,6 +48,11 @@ public partial class ContactsPage : ContentPage
     {
         var selectedItem = e.CurrentSelection.FirstOrDefault() as Contact;
         if (selectedItem == null) return;
+#if WINDOWS
+        // Force WinUI to clear the selected container
+        if (CVContacts.Handler?.PlatformView is Microsoft.UI.Xaml.Controls.ListViewBase lv)
+            lv.SelectedIndex = -1;
+#endif
         Navigation.PushAsync(new contactDetailsPage(selectedItem));
         ((CollectionView)sender).SelectedItem = null;
     }
